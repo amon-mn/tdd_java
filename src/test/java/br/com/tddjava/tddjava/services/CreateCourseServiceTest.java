@@ -219,6 +219,76 @@ public void should_be_able_to_create_a_new_course_with_maximum_description_lengh
     assertNotNull(createdCourse.getId());
 }
 
+// CT004.001 - Não criar curso, caso a carga horária seja nula
+@Test
+public void should_not_be_able_to_create_a_new_course_with_null_workload() {
+    Course course = new Course();
+    course.setDescription("Curso_Description_Test");
+    course.setName("Engeharia de Software"); 
+    course.setWorkload(null); // Carga horária nula
+
+    CourseInMemoryRepository repository = new CourseInMemoryRepository();
+    CreateCourseService createCourseService = new CreateCourseService(repository);
+
+    assertThrows(IllegalArgumentException.class, () -> createCourseService.execute(course));
+}
+// CT004.002 - Não criar curso, caso a carga horária seja menor que 20 horas
+@Test
+public void should_not_be_able_to_create_a_new_course_with_less_than_20_hours_workload() {
+    Course course = new Course();
+    course.setDescription("Curso_Description_Test");
+    course.setName("Engeharia de Software"); 
+    course.setWorkload(19); // Carga horária com menos de 20 horas
+
+    CourseInMemoryRepository repository = new CourseInMemoryRepository();
+    CreateCourseService createCourseService = new CreateCourseService(repository);
+
+    assertThrows(IllegalArgumentException.class, () -> createCourseService.execute(course));
+}
+// CT004.003 - Não criar curso, caso a carga horária seja maior que 120 horas
+@Test
+public void should_not_be_able_to_create_a_new_course_with_more_120_hours_workload() {
+    Course course = new Course();
+    course.setDescription("Curso_Description_Test");
+    course.setName("Engeharia de Software"); 
+    course.setWorkload(121); // Carga horária com mais de 120 horas
+
+    CourseInMemoryRepository repository = new CourseInMemoryRepository();
+    CreateCourseService createCourseService = new CreateCourseService(repository);
+
+    assertThrows(IllegalArgumentException.class, () -> createCourseService.execute(course));
+}
+// CT004.004 - Criar curso, caso a carga horária esteja no limite maximo de 120 horas
+@Test
+public void should_be_able_to_create_a_new_course_with_maximum_workload_hours() {
+    Course course = new Course();
+    course.setDescription("Curso_Description_Test");
+    course.setName("Engeharia de Software"); 
+    course.setWorkload(120); // Carga horária com limite maximo de 120 horas
+
+    CourseInMemoryRepository repository = new CourseInMemoryRepository();
+    CreateCourseService createCourseService = new CreateCourseService(repository);
+
+    Course createdCourse = createCourseService.execute(course);
+
+    assertNotNull(createdCourse.getId());
+}
+// CT004.005 - Criar curso, caso a carga horária esteja no limite minimo de 20 horas
+@Test
+public void should_be_able_to_create_a_new_course_with_minimun_workload_hours() {
+    Course course = new Course();
+    course.setDescription("Curso_Description_Test");
+    course.setName("Engeharia de Software"); 
+    course.setWorkload(20); // Carga horária com limite minimo de 20 horas
+
+    CourseInMemoryRepository repository = new CourseInMemoryRepository();
+    CreateCourseService createCourseService = new CreateCourseService(repository);
+
+    Course createdCourse = createCourseService.execute(course);
+
+    assertNotNull(createdCourse.getId());
+}
+
 
     // Casos de Teste de Caixa Branca
     @Test
