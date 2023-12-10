@@ -23,7 +23,6 @@ public class CreateCourseService {
         if (existedCourse != null) {
             throw new CourseAlreadyExistsException("Curso já existe!");
         }
-
         // Validar se o nome do curso é nulo
         if (course.getName() == null) {
             throw new IllegalArgumentException("O nome do curso não pode ser nulo.");
@@ -40,7 +39,6 @@ public class CreateCourseService {
         if (course.getName().length() > 50) {
             throw new IllegalArgumentException("O nome do curso não pode ter mais de 50 caracteres.");
         }
-
         // Validar se a descrição de curso é nula
         if (course.getDescription() == null) {
             throw new IllegalArgumentException("A descrição do curso não pode ser nula.");
@@ -57,7 +55,6 @@ public class CreateCourseService {
         if (course.getDescription().length() > 500) {
             throw new IllegalArgumentException("A descrição do curso não pode ter mais de 500 caracteres.");
         }
-
         // Valida se a carga horária do curso é nula
         if (course.getWorkload() == null){
             throw new IllegalArgumentException("A carga horária não pode ser nula.");
@@ -70,8 +67,8 @@ public class CreateCourseService {
         if (course.getWorkload() > 120){
             throw new IllegalArgumentException("A carga horária não pode ter mais que 120 horas.");
         }
-        
         // Se não - Salvar e retorna novo curso
         return this.repository.save(course);
+        // ..
     }
 }
